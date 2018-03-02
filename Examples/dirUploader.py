@@ -19,6 +19,7 @@ DIR_NAME="dir you want to upload to specified bucket ea: C:/Documents/folder"
 iteration = 0
 
 #Connect to s3
+#What do you do when this fails?
 s3 = boto3.resource(
     "s3",
     aws_access_key_id=ACCESS_KEY_ID,
@@ -32,7 +33,10 @@ for filename in os.listdir(DIR_NAME):
     FILE_NAME = (DIR_NAME + '/' + filename)
     print(FILE_NAME)
     data = open(FILE_NAME, "rb")
+    #why do you open this file in rb mode? you're only uploading
+    #what happens when the open fails?
     s3.Bucket(BUCKET_NAME).put_object(Key=filename, Body=data)
+    #what happens when this fails?
     FILE_NAME = ""
 
 #listing files in s3 bucket
